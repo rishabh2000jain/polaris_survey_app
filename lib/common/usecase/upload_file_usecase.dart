@@ -6,12 +6,14 @@ import 'package:aws_common/aws_common.dart';
 import 'package:aws_signature_v4/aws_signature_v4.dart';
 import 'package:polaris_survey_app/common/aws_common.dart';
 
+///[UploadFileUseCase] is responsible for uploading the files to aws
+///s3 bucket and return a url of the same if the upload was successful.
 @injectable
 class UploadFileUseCase {
   Future<String?> upload(
       Uint8List blob, String filePath, String fileName) async {
     try {
-      return await generateAwsSignature(
+      return await _generateAwsSignature(
           endpointUri: Uri.parse(buildFileUrl(filePath, fileName)), file: blob);
     } catch (error) {
       debugPrint(error.toString());
@@ -19,7 +21,7 @@ class UploadFileUseCase {
     return null;
   }
 
-  Future<String?> generateAwsSignature({
+  Future<String?> _generateAwsSignature({
     required Uri endpointUri,
     required Uint8List file,
   }) async {

@@ -5,5 +5,5 @@ import 'package:polaris_survey_app/features/survey_form/domain/entity/survey_for
 
 abstract class ISurveyRepository{
   Future<Either<Failure,GetSurveyFormFieldEntity>> getSurveyFormField();
-  Future<Either<Failure,Success>> postSurveyFormData(List data,bool insertToDbFirst);
+  Future<Either<Failure,Success>> saveSurveyFormData(List data,bool insertToDbFirst);
 }

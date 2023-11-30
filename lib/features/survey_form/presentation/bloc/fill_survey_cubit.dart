@@ -6,7 +6,7 @@ import 'package:polaris_survey_app/core/models/widget_model.dart';
 import 'package:polaris_survey_app/features/survey_form/domain/entity/form_data_entity.dart';
 import 'package:polaris_survey_app/features/survey_form/domain/entity/survey_form_field_entity.dart';
 import 'package:polaris_survey_app/features/survey_form/domain/usecase/get_form_field_usecase.dart';
-import 'package:polaris_survey_app/features/survey_form/presentation/survey_states.dart';
+import 'package:polaris_survey_app/features/survey_form/presentation/bloc/survey_states.dart';
 
 @injectable
 class FillSurveyCubit extends Cubit<SurveyStates> {
@@ -17,10 +17,11 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
   GetSurveyFormFieldEntity? formFieldEntity;
   final List<FieldData> _formData = [];
 
+  ///[loadSurveyForm] will get the form fields and emit [SurveyFormLoaded] or [ErrorLoadingSurveyForm].
   Future<void> loadSurveyForm() async {
     emit(LoadingSurveyForm());
 
-    void refreshUserData(List<WidgetModel> models){
+    void refreshUserData(List<WidgetModel> models) {
       _formData.clear();
       for (var element in models) {
         _formData.add(
@@ -30,8 +31,7 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
             id: element.id,
             value: null,
             isValid: !element.properties.mandatory,
-            bucketPath: (element.widgetTypeEnum ==
-                WidgetTypeEnum.captureImages
+            bucketPath: (element.widgetTypeEnum == WidgetTypeEnum.captureImages
                 ? (element.properties as CaptureImageProperties).savingFolder
                 : null),
           ),
@@ -50,6 +50,8 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
     );
   }
 
+  ///[updateValue] should be used to update the value of any form field
+  ///by providing [widgetId] of that specific field or widget.
   void updateValue(String widgetId, dynamic value) {
     if (formFieldEntity == null) return;
     int formWidgetIndex =
@@ -63,9 +65,9 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
 
     if (widgetData.widgetTypeEnum == WidgetTypeEnum.captureImages) {
       widgetFormData.files = value;
-    } else if(value is List && value.isEmpty) {
+    } else if (value is List && value.isEmpty) {
       widgetFormData.value = null;
-    }else {
+    } else {
       widgetFormData.value = value;
     }
 
@@ -82,27 +84,38 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
     emit(SurveyFormLoaded(formFieldEntity!, _formData));
   }
 
-  bool checkFormCompletion() {
+  ///[_checkFormCompletion] will check weather the form is
+  ///complete or not and satisfy all the necessary conditions,
+  ///if not then it will emit [SurveyFormIncomplete] with the label of that
+  ///form field.
+  bool _checkFormCompletion() {
     for (var element in _formData) {
       if (!element.isValid) {
-        emit(SurveyFormIncomplete(element.label,DateTime.now().microsecondsSinceEpoch));
+        emit(
+          SurveyFormIncomplete(
+              element.label, DateTime.now().microsecondsSinceEpoch),
+        );
         return false;
       }
     }
     return true;
   }
 
+  ///[mayBeUploadForm] can be used to upload the form.
+  ///This method will take care of validating the form.
   Future<void> mayBeUploadForm() async {
-    if(!checkFormCompletion()){
+    if (!_checkFormCompletion()) {
       return;
     }
     final response = await _postSurveyFormDataUseCase.call(_formData);
     response.fold((left) {
-      emit(const SurveyFormSavedState(false));
+      emit(
+        const SurveyFormSavedState(false),
+      );
     }, (right) {
-      emit(const SurveyFormSavedState(true));
+      emit(
+        const SurveyFormSavedState(true),
+      );
     });
   }
-
-
 }

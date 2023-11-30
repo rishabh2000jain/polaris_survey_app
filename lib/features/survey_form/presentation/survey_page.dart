@@ -11,8 +11,8 @@ import 'package:polaris_survey_app/common/widgets/solid_button.dart';
 import 'package:polaris_survey_app/core/di_entry.dart';
 import 'package:polaris_survey_app/core/enums/widget_type_enum.dart';
 import 'package:polaris_survey_app/core/models/widget_model.dart';
-import 'package:polaris_survey_app/features/survey_form/presentation/fill_survey_cubit.dart';
-import 'package:polaris_survey_app/features/survey_form/presentation/survey_states.dart';
+import 'package:polaris_survey_app/features/survey_form/presentation/bloc/fill_survey_cubit.dart';
+import 'package:polaris_survey_app/features/survey_form/presentation/bloc/survey_states.dart';
 
 class SurveyPage extends StatefulWidget {
   const SurveyPage({Key? key}) : super(key: key);

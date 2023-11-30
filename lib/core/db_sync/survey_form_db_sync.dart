@@ -21,7 +21,7 @@ class SurveyFormDbSync extends IDbSyncService {
   final PostSurveyFormDataUseCase _postSurveyFormDataUseCase;
   final SurveyFormDbService _formDbService;
 
-  SurveyFormDbSync(this._formDbService,this._uploadFileUseCase,this._postSurveyFormDataUseCase) : super(SyncType.networkStateChangesAndPeriodic,const Duration(minutes: 1));
+  SurveyFormDbSync(this._formDbService,this._uploadFileUseCase,this._postSurveyFormDataUseCase) : super(SyncType.networkAvailableAndPeriodic,const Duration(minutes: 1));
   StreamSubscription? _streamSubscription;
 
   void init(){
@@ -29,6 +29,10 @@ class SurveyFormDbSync extends IDbSyncService {
       startSync();
     });
   }
+
+  ///[startSync] will start the process of synchronization of all
+  ///the survey forms available in the database only when the network connection
+  ///is available and the process has not already started.
   @override
   Future<void> startSync() async {
     if(!AppState.instance.connectedToInternet || syncRunning){

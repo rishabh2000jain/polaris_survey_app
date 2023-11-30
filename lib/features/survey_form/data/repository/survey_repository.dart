@@ -43,7 +43,7 @@ class SurveyRepository extends ISurveyRepository {
   }
 
   @override
-  Future<Either<Failure, Success>> postSurveyFormData(
+  Future<Either<Failure, Success>> saveSurveyFormData(
       List data, bool insertToDbFirst) async {
     if (insertToDbFirst) {
       try {
@@ -90,4 +90,6 @@ class SurveyRepository extends ISurveyRepository {
       }
     }
   }
+
+
 }
