@@ -15,12 +15,12 @@ abstract class IDbSyncService{
          break;
        }
        case SyncType.periodic:{
-         syncPeriodic(duration!);
+         _syncPeriodic(duration!);
          break;
        }
        case SyncType.networkStateChangesAndPeriodic:{
          _listenNetworkUpdates();
-         syncPeriodic(duration!);
+         _syncPeriodic(duration!);
          break;
        }
        case SyncType.none:
@@ -45,7 +45,7 @@ abstract class IDbSyncService{
     });
   }
 
-  void syncPeriodic(Duration duration){
+  void _syncPeriodic(Duration duration){
     debugPrint('Started Periodic Sync Service');
     _timer = Timer.periodic(duration, (timer) {
       _mayBeStartSync();
