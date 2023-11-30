@@ -23,8 +23,10 @@ class PostSurveyFormDataUseCase {
         'value':(){
           if(element.value!=null){
             return jsonDecode(element.value!);
+          }else if(element.images.isNotEmpty){
+            return element.images.map((element) => element.publicHttpUrl).toList();
           }
-          return element.images.map((element) => element.publicHttpUrl).toList();
+          return null;
         }(),
       });
     }
