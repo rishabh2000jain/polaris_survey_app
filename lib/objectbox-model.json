@@ -1,0 +1,107 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:6026722761629350174",
+      "lastPropertyId": "3:5873751746681606172",
+      "name": "FormField",
+      "properties": [
+        {
+          "id": "1:9010122682549527254",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6032613318702022826",
+          "name": "label",
+          "type": 9
+        },
+        {
+          "id": "3:5873751746681606172",
+          "name": "value",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "2:6252323983966300416",
+          "name": "images",
+          "targetId": "3:7756313916547798343"
+        }
+      ]
+    },
+    {
+      "id": "2:2698641740608207534",
+      "lastPropertyId": "2:5242791075118078398",
+      "name": "SurveyFormModel",
+      "properties": [
+        {
+          "id": "1:4072512961179696792",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:2773206716186356601",
+          "name": "formField",
+          "targetId": "1:6026722761629350174"
+        }
+      ]
+    },
+    {
+      "id": "3:7756313916547798343",
+      "lastPropertyId": "6:1750790921186646357",
+      "name": "Image",
+      "properties": [
+        {
+          "id": "1:4506608937141946671",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5431359730623732949",
+          "name": "blob",
+          "type": 23
+        },
+        {
+          "id": "4:5096245698933993173",
+          "name": "publicHttpUrl",
+          "type": 9
+        },
+        {
+          "id": "5:9071897239657261260",
+          "name": "bucketPath",
+          "type": 9
+        },
+        {
+          "id": "6:1750790921186646357",
+          "name": "fileNameWithExt",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "3:7756313916547798343",
+  "lastIndexId": "1:2769738339084024939",
+  "lastRelationId": "2:6252323983966300416",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [
+    2769738339084024939
+  ],
+  "retiredPropertyUids": [
+    5242791075118078398,
+    5537225006496237025
+  ],
+  "retiredRelationUids": [],
+  "version": 1
+}
