@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:polaris_survey_app/core/connectivity_manager.dart';
@@ -10,12 +12,17 @@ import 'package:polaris_survey_app/core/di_entry.dart';
 import 'features/survey_form/presentation/survey_page.dart';
 
 void main() async{
-  WidgetsFlutterBinding.ensureInitialized();
-  await configureDependencies();
-  await getIt<ConnectivityManager>().init();
-  await getIt<IDatabaseManager<Store>>().init();
-  getIt<SurveyFormDbSync>().init();
-  runApp(const MyApp());
+  runZonedGuarded(() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    await configureDependencies();
+    await getIt<ConnectivityManager>().init();
+    await getIt<IDatabaseManager<Store>>().init();
+    getIt<SurveyFormDbSync>().init();
+    runApp(const MyApp());
+  }, (error, stack) {
+    debugPrint(error.toString());
+    debugPrintStack(stackTrace: stack);
+  });
 }
 
 class MyApp extends StatelessWidget {
