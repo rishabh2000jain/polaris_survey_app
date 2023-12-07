@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
 import 'package:polaris_survey_app/core/app_state.dart';
 import 'package:polaris_survey_app/core/di_entry.dart';
@@ -32,9 +33,13 @@ class ConnectivityManager {
 
   Future<bool> _confirmConnected()async{
     try {
+      debugPrint('Network Confirmation Started');
       List<InternetAddress> addresses = await InternetAddress.lookup('www.google.com').timeout(const Duration(seconds: 5));
-      return addresses.isNotEmpty && addresses.first.rawAddress.isNotEmpty;
-    }on SocketException catch(e){
+      final result = addresses.isNotEmpty && addresses.first.rawAddress.isNotEmpty;
+      debugPrint('Network Confirmation Ended: ${result?'':'Not'} Connected');
+      return result;
+    } catch(e){
+      debugPrint('Network Confirmation Ended: Not Connected');
       return false;
     }
   }

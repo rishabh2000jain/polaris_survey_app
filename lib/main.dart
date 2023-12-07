@@ -15,9 +15,9 @@ void main() async{
   runZonedGuarded(() async{
     WidgetsFlutterBinding.ensureInitialized();
     await configureDependencies();
-    await getIt<ConnectivityManager>().init();
     await getIt<IDatabaseManager<Store>>().init();
     getIt<SurveyFormDbSync>().init();
+    await getIt<ConnectivityManager>().init();
     runApp(const MyApp());
   }, (error, stack) {
     debugPrint(error.toString());

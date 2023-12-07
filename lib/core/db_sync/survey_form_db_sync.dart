@@ -68,7 +68,7 @@ class SurveyFormDbSync extends IDbSyncService {
                       String? path = await _uploadFileUseCase.upload(
                           image.blob!, image.bucketPath,image.fileNameWithExt);
                       if (path != null) {
-                        debugPrint('Image with ID:- ${image.id}  uploaded to cloud');
+                        debugPrint('Image with ID:- ${image.id}  uploaded to cloud $path');
                         image.setHttpUrl(path);
                         await _formDbService.updateImage(image);
                       }else{

@@ -10,9 +10,9 @@ class EventBusManager {
   final EventBus _eventBus = EventBus();
 
 
-  Stream<NetworkStateChangeEvent> get networkEvents => _eventBus.on<NetworkStateChangeEvent>();
+  Stream<NetworkStateChangeEvent> get networkEvents => _eventBus.on<NetworkStateChangeEvent>().asBroadcastStream();
 
-  Stream<StartSurveyFormSync> get surveyFormSyncEvents => _eventBus.on<StartSurveyFormSync>();
+  Stream<StartSurveyFormSync> get surveyFormSyncEvents => _eventBus.on<StartSurveyFormSync>().asBroadcastStream();
 
   void fireNetworkConnectionUpdate(bool connected) {
     _eventBus.fire(NetworkStateChangeEvent(connected));
