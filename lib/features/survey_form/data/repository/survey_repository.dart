@@ -104,6 +104,7 @@ class SurveyRepository extends ISurveyRepository {
       }
     } else {
       try {
+        debugPrint(data.toString());
         final Dio dio = DioFactory().getDio();
         Response response = await dio
             .post('${ApiConstants.baseUrl}${ApiConstants.flutterAssignmentPush}',data: data);
