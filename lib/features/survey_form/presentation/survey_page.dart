@@ -36,36 +36,52 @@ class _SurveyPageState extends State<SurveyPage> {
     return Scaffold(
       body: SafeArea(
         child: BlocConsumer<FillSurveyCubit, SurveyStates>(
-          listener: (context,state){
-            if(state is SurveyFormIncomplete){
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Field ${state.incompleteLabel} is not complete',style: TextStyle(
-                color: Theme.of(context).colorScheme.onError,
-                fontSize: 16
-              ),),duration: const Duration(seconds: 2),backgroundColor: Theme.of(context).colorScheme.error,));
-            }else if(state is SurveyFormSavedState){
-              if(state.saved) {
+          listener: (context, state) {
+            if (state is SurveyFormIncomplete) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(
+                  'Field ${state.incompleteLabel} is not complete',
+                  style: TextStyle(
+                      color: Theme.of(context).colorScheme.onError,
+                      fontSize: 16),
+                ),
+                duration: const Duration(seconds: 2),
+                backgroundColor: Theme.of(context).colorScheme.error,
+              ));
+            } else if (state is SurveyFormSavedState) {
+              if (state.saved) {
                 _fillSurveyCubit.loadSurveyForm();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Form added successfully',
+                      style: TextStyle(
+                          color: Theme.of(context).colorScheme.onError,
+                          fontSize: 16),
+                    ),
+                    duration: const Duration(seconds: 2),
+                    backgroundColor: Colors.green,
+                  ),
+                );
+              } else {
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Form added successfully', style: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .onError,
-                      fontSize: 16
-                  ),),
+                  content: Text(
+                    'Oops! Failed to save form',
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onError,
+                        fontSize: 16),
+                  ),
                   duration: const Duration(seconds: 2),
-                  backgroundColor: Colors.green,),);
-              }else{
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Oops! Failed to save form',style: TextStyle(
-                    color: Theme.of(context).colorScheme.onError,
-                    fontSize: 16
-                ),),duration: const Duration(seconds: 2),backgroundColor: Theme.of(context).colorScheme.error,));
+                  backgroundColor: Theme.of(context).colorScheme.error,
+                ));
               }
             }
           },
           bloc: _fillSurveyCubit,
-          buildWhen: (prev,curr){
-            return curr is LoadingSurveyForm || curr is ErrorLoadingSurveyForm || curr is SurveyFormLoaded;
+          buildWhen: (prev, curr) {
+            return curr is LoadingSurveyForm ||
+                curr is ErrorLoadingSurveyForm ||
+                curr is SurveyFormLoaded;
           },
           builder: (context, state) {
             if (state is LoadingSurveyForm) {
@@ -73,13 +89,16 @@ class _SurveyPageState extends State<SurveyPage> {
                 child: CircularProgressIndicator(),
               );
             } else if (state is ErrorLoadingSurveyForm) {
-              return  Center(
+              return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextButton.icon(onPressed: (){
-                      _fillSurveyCubit.loadSurveyForm();
-                    }, icon: const Icon(Icons.refresh), label: const Text('oops! click to refresh'))
+                    TextButton.icon(
+                        onPressed: () {
+                          _fillSurveyCubit.loadSurveyForm();
+                        },
+                        icon: const Icon(Icons.refresh),
+                        label: const Text('oops! click to refresh'))
                   ],
                 ),
               );
@@ -135,14 +154,19 @@ class _SurveyPageState extends State<SurveyPage> {
                                                     properties: e.properties
                                                         as EditTextProperties,
                                                     onChange: (value) {
-                                                      _fillSurveyCubit.updateValue(e.id, value);
+                                                      _fillSurveyCubit
+                                                          .updateValue(
+                                                              e.id, value);
                                                     },
                                                   ),
                                                 WidgetTypeEnum.checkBoxes =>
                                                   CheckBoxGroup(
                                                     key: ObjectKey(e.id),
-                                                    onUpdate: (List<String> selectedOptions) {
-                                                     _fillSurveyCubit.updateValue(e.id, selectedOptions);
+                                                    onUpdate: (List<String>
+                                                        selectedOptions) {
+                                                      _fillSurveyCubit
+                                                          .updateValue(e.id,
+                                                              selectedOptions);
                                                     },
                                                     properties: e.properties
                                                         as CheckBoxProperties,
@@ -153,25 +177,32 @@ class _SurveyPageState extends State<SurveyPage> {
                                                     properties: e.properties
                                                         as DropDownProperties,
                                                     onSelect: (value) {
-                                                      _fillSurveyCubit.updateValue(e.id, value);
+                                                      _fillSurveyCubit
+                                                          .updateValue(
+                                                              e.id, value);
                                                     },
                                                   ),
                                                 WidgetTypeEnum.radioGroup =>
                                                   RadioButtonGroup(
-                                                      key: ObjectKey(e.id),
+                                                    key: ObjectKey(e.id),
                                                     properties: e.properties
                                                         as RadioGroupProperties,
                                                     onChanged: (String value) {
-                                              _fillSurveyCubit.updateValue(e.id, value);
-                                              },
+                                                      _fillSurveyCubit
+                                                          .updateValue(
+                                                              e.id, value);
+                                                    },
                                                   ),
                                                 WidgetTypeEnum.captureImages =>
                                                   CaptureImageList(
                                                     key: ObjectKey(e.id),
                                                     filesUpdated:
                                                         (List<File> files) {
-                                              _fillSurveyCubit.updateValue(e.id, files);
-                                              },properties: (e.properties
+                                                      _fillSurveyCubit
+                                                          .updateValue(
+                                                              e.id, files);
+                                                    },
+                                                    properties: (e.properties
                                                         as CaptureImageProperties),
                                                   ),
                                                 WidgetTypeEnum.none =>

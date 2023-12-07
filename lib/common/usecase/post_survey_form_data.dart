@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:either_dart/either.dart';
 import 'package:injectable/injectable.dart';
-import 'package:polaris_survey_app/core/models/survey_form_model.dart';
+import 'package:polaris_survey_app/core/db_models/survey_form_model.dart';
 import 'package:polaris_survey_app/core/remote_service/api_failure.dart';
 import 'package:polaris_survey_app/core/remote_service/api_success.dart';
 import 'package:polaris_survey_app/features/survey_form/domain/entity/form_data_entity.dart';

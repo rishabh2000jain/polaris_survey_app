@@ -13,13 +13,11 @@ class ConnectivityManager {
   Future<void> init() async{
     if (_connectivity == null) {
       _connectivity = Connectivity();
+      final result = await _confirmConnected();
+      _connectivityAppState(result);
       _networkStreamSubscription = _connectivity!.onConnectivityChanged.listen((ConnectivityResult event) async{
-        if(event == ConnectivityResult.wifi || event == ConnectivityResult.mobile){
           final result = await _confirmConnected();
           _connectivityAppState(result);
-        }else{
-          _connectivityAppState(false);
-        }
       });
     }
   }
@@ -36,7 +34,7 @@ class ConnectivityManager {
     try {
       List<InternetAddress> addresses = await InternetAddress.lookup('www.google.com').timeout(const Duration(seconds: 5));
       return addresses.isNotEmpty && addresses.first.rawAddress.isNotEmpty;
-    }catch(exception){
+    }on SocketException catch(e){
       return false;
     }
   }
