@@ -36,7 +36,7 @@ class _SolidButtonWidgetState extends State<SolidButtonWidget> {
         textColor: Theme.of(context).colorScheme.onPrimary,
         disabledTextColor: Theme.of(context).colorScheme.onSecondary,
         disabledElevation: 0,
-        onPressed: ()async{
+        onPressed: _loading?null:()async{
           setState(() {
             _loading = true;
           });
