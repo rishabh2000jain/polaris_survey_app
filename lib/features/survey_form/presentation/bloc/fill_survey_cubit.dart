@@ -65,7 +65,7 @@ class FillSurveyCubit extends Cubit<SurveyStates> {
 
     if (widgetData.widgetTypeEnum == WidgetTypeEnum.captureImages) {
       widgetFormData.files = value;
-    } else if (value is List && value.isEmpty) {
+    } else if ((value is List && value.isEmpty)||value.toString().isEmpty) {
       widgetFormData.value = null;
     } else {
       widgetFormData.value = value;
